@@ -1,0 +1,18 @@
+{
+    "name": "user/test_php",
+    "autoload": {
+        "psr-4": {
+            "User\\TestPhp\\": "src/"
+        },
+        "classmap": [
+
+        ]
+    },
+    "authors": [{
+        "name": "indraranuh-dev",
+        "email": "indraranuh1@gmail.com"
+    }],
+    "require": {
+        "php": "7.4"
+    }
+}
