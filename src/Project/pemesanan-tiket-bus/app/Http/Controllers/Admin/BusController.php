@@ -8,6 +8,7 @@ use App\Models\Bus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class BusController extends Controller
 {
@@ -45,12 +46,18 @@ class BusController extends Controller
     public function update(Request $request, $bus): RedirectResponse
     {
         $bus = Bus::findOrFail($bus);
+        if ($request->file('gambar')) {
+            Storage::delete($bus->gambar);
+            $gambar = $request->file('gambar')->store('assets/bus');
+        } else {
+            $gambar = $bus->gambar;
+        }
         $bus->update([
             'nama' => $request->nama,
             'nomor_polisi' => $request->nomor_polisi,
             'type' => $request->type,
             'kapasitas' => $request->kapasitas,
-            'gambar' => $request->gambar ? $request->file('gambar')->store('assets/bus') : 'tidak ada gambar',
+            'gambar' => $gambar,
         ]);
 
         return to_route('bus.index');

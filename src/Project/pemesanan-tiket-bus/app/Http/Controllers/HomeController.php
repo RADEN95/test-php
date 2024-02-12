@@ -11,10 +11,10 @@ class HomeController extends Controller
 {
     public function __invoke(Request $request)
     {
-//        return Carbon::now()->format('d-m-Y');
+        //        return Carbon::now()->format('d-m-Y');
         $jadwal = Schedule::query()
             ->with(['bus', 'asal', 'tujuan'])
-            ->withCount('schedules')
+            ->withCount('tickets')
             ->whereDate('keberangkatan', '>=', Carbon::now())
             ->get();
 

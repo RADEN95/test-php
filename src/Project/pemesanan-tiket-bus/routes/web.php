@@ -30,24 +30,27 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/browse', 'index')->name('browse.index');
     });
 
-    Route::controller(TransactionController::class)->group(function () {
-        Route::get('/transaksi/{slug}', 'index')->name('transaksi.index');
-        Route::put('/transaksi/valid{slug}', 'valid')->name('transaksi.valid');
-        Route::put('/transaksi/tidak-valid{slug}', 'tidakValid')->name('transaksi.tidak.valid');
-    });
+
 
     Route::controller(TiketSayaController::class)->group(function () {
         Route::get('/tiket-saya', 'myTicket')->name('tiket-saya');
         Route::get('/transaksi-saya/{slug}', 'myTransaction')->name('transaksi-saya');
     });
 
-    Route::resources([
-        'bank' => BankController::class,
-        'bus' => BusController::class,
-        'jadwal' => JadwalController::class,
-        'tiket' => TiketController::class,
-        'diskon' => DiscountController::class
-    ]);
+    Route::middleware(['isAdmin'])->group(function () {
+        Route::controller(TransactionController::class)->group(function () {
+            Route::get('/transaksi/{slug}', 'index')->name('transaksi.index');
+            Route::put('/transaksi/valid{slug}', 'valid')->name('transaksi.valid');
+            Route::put('/transaksi/tidak-valid{slug}', 'tidakValid')->name('transaksi.tidak.valid');
+        });
+        Route::resources([
+            'bank' => BankController::class,
+            'bus' => BusController::class,
+            'jadwal' => JadwalController::class,
+            'tiket' => TiketController::class,
+            'diskon' => DiscountController::class
+        ]);
+    });
 });
 
 Auth::routes();

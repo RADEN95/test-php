@@ -30,7 +30,7 @@ class TransactionController extends Controller
         $transaksi->ticket()->update([
             'status' => StatusEnum::LUNAS->value
         ]);
-        return back();
+        return to_route('tiket.index');
     }
 
     public function tidakValid($slug)
@@ -45,6 +45,6 @@ class TransactionController extends Controller
         $transaksi->ticket()->update([
             'status' => StatusEnum::TIDAK_AKTIF->value
         ]);
-        return back();
+        return to_route('tiket.index');
     }
 }

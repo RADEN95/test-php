@@ -14,7 +14,7 @@ class BrowseController extends Controller
     {
         $jadwal = Schedule::query()
             ->with(['bus', 'asal', 'tujuan'])
-            ->withCount('schedules')
+            ->withCount('tickets')
             ->where('kota_asal', 'LIKE', "%{$request->get('dari')}%")
             ->orWhere('kota_tujuan', 'LIKE', "%{$request->get('tujuan')}%")
             ->whereDate('keberangkatan', ">=", Carbon::now()->format('d-m-Y, H:i'))
@@ -23,10 +23,5 @@ class BrowseController extends Controller
             'regencies' => Regency::oldest('name')->get(),
             'chedules' => $jadwal
         ]);
-    }
-
-    public function search(Request $request)
-    {
-
     }
 }

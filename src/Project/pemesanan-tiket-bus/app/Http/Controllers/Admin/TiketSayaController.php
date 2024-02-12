@@ -12,8 +12,13 @@ class TiketSayaController extends Controller
     public function myTicket(): Response
     {
         return response()->view('pages.transaksi.my-tiket', [
-            'tickets' => Ticket::with(['user', 'schedule', 'schedule.bus'])
-                ->whereUserId(auth()->id())->get()
+            'tickets' => Ticket::with([
+                'user',
+                'schedule',
+                'schedule.bus'
+            ])
+                ->whereUserId(auth()->id())
+                ->get()
         ]);
     }
 

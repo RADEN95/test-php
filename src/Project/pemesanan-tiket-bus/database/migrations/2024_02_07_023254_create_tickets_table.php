@@ -26,6 +26,12 @@ return new class extends Migration
                 ->on('schedules')
                 ->onDelete('cascade');
 
+            $table->foreignUuid('discount_id')
+                ->nullable()
+                ->references('id')
+                ->on('discounts')
+                ->onDelete('cascade');
+
             $table->string('status')->default(StatusEnum::PROSES->value);
             $table->timestamps();
         });

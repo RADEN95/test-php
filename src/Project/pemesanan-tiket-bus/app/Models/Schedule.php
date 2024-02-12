@@ -43,8 +43,10 @@ class Schedule extends Model
         ]);
     }
 
-    public function schedules(): HasMany
+    public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
     }
+
+    //
 }

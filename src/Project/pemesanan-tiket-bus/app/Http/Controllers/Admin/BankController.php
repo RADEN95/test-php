@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateBankRequest;
 use App\Models\Bank;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class BankController extends Controller
 {
@@ -42,10 +43,16 @@ class BankController extends Controller
      */
     public function update(UpdateBankRequest $request, Bank $bank): RedirectResponse
     {
+        if ($request->file('logo_bank')) {
+            Storage::delete($bank->logo_bank);
+            $logo = $request->file('logo_bank')->store('assets/bank');
+        } else {
+            $logo = $bank->logo_bank;
+        }
         $bank->update([
             'nama_bank' => $request->nama_bank,
             'nomor_bank' => $request->nomor_bank,
-            'logo_bank' => $request->logo_bank ? $request->file('logo_bank')->store('assets/bank') : 'Tidak Ada Logo',
+            'logo_bank' => $logo,
         ]);
 
         return to_route('bank.index');

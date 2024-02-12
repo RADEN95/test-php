@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ticket extends Model
 {
@@ -14,6 +15,7 @@ class Ticket extends Model
     protected $fillable = [
         'user_id',
         'schedule_id',
+        'discount_id',
         'status',
     ];
 
@@ -29,5 +31,22 @@ class Ticket extends Model
         return $this->belongsTo(Schedule::class)->withDefault([
             'bus_id' => '-',
         ]);
+    }
+
+
+    public function discount(): BelongsTo
+    {
+        return $this->belongsTo(Discount::class)->withDefault([
+            'nama' => '-'
+        ]);
+    }
+    /**
+     * Get all of the transactions for the Ticket
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'ticket_id', 'id');
     }
 }
